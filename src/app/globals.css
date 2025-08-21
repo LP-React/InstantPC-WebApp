@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+:root.dark {
+  --background: #08090A;
+  --foreground: #ededed;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-instant-indigo: #5E17EB;
+  --color-instant-pink: #FF6FC4;
+  --color-instant-black: #08090A;
+  --color-instant-white: #E4E6EB;
+  --color-instant-gray: #8499B1;
+
+}
+
+
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+/* Section games */
+
+@keyframes scroll-right {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.scroll-right {
+  display: flex;
+  width: max-content;
+  animation: scroll-right 50s linear infinite;
+}
+
+.scroll-left {
+  display: flex;
+  width: max-content;
+  animation: scroll-left 50s linear infinite;
+}

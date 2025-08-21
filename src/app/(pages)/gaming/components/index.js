@@ -1,0 +1,6 @@
+export * from './GamingBanner'
+export * from './GamingFeatures'
+export * from './CarouselGames'
+export * from './GameCard'
+export * from './GamingNews'
+export * from './NewCard'
