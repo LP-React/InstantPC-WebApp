@@ -1,102 +1,118 @@
-'use client'
-import { usePathname } from "next/navigation"
+"use client";
+import { usePathname } from "next/navigation";
 import { GameBanner } from "./components/GameBanner";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
-import DOMPurify from "dompurify"
+import DOMPurify from "dompurify";
 import { GalleryGame } from "./components/GalleryGame";
 import { GameInfoCards } from "./components/GameInfoCards";
 import { DescriptionGame } from "./components/DescriptionGame";
 
 const gamePage = () => {
 
-    const pathname = usePathname()
+  const pathname = usePathname();
+  const match = pathname.match(/\/games\/([^/]+)/);
+  const slug = match ? match[1] : null;
 
-    const match = pathname.match(/\/games\/([^/]+)/);
-    const idPath = match ? match[1] : null;
+  const [gameData, setGameData] = useState(null);
 
+  useEffect(() => {
+    const fetchSteamData = async () => {
+      try {
+        const response = await axios.get(
+          `https://localhost:7140/api/Games/${slug}`,
+        );
+        const data = response.data;
 
-    const [gameData, setGameData] = useState(null);
-    // const [gallery, setGallery] = useState(0)
+        if (data) {
+          setGameData(data);
+        } else {
+          console.error("❌ No se encontró el juego en Steam");
+        }
+      } catch (err) {
+        console.error("❌ Error al consultar Steam API:", err);
+      }
+    };
 
-    useEffect(() => {
-        const fetchSteamData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:5158/api/steam/${idPath}`);
-                const data = response.data[idPath];
+    fetchSteamData();
+  }, [slug]);
 
-                if (data.success) {
-                    setGameData(data.data);
-                } else {
-                    console.error("❌ No se encontró el juego en Steam");
-                }
-            } catch (err) {
-                console.error("❌ Error al consultar Steam API:", err);
-            }
-        };
+  if (!gameData) return <div>Cargando...</div>;
 
-        fetchSteamData();
+  function decodeSteamHTML(raw) {
+    return raw
+      .replace(/\\u003C/g, "<")
+      .replace(/\\u003E/g, ">")
+      .replace(/\\u0026/g, "&"); // por si hay &amp; escapados
+  }
 
-    }, [idPath]);
+  function getSafeDescription(raw) {
+    const decoded = decodeSteamHTML(raw);
 
-    if (!gameData) return <div className="text-white">Cargando...</div>;
+    return DOMPurify.sanitize(decoded, {
+      ALLOWED_TAGS: ["p", "ul", "li", "strong", "em", "br", "b", "i"],
+      ALLOWED_ATTR: [], // sin atributos como onclick, style, etc.
+    });
+  }
 
+  const safeHTML = getSafeDescription(gameData.about_the_game);
 
-    function decodeSteamHTML(raw) {
-        return raw
-            .replace(/\\u003C/g, "<")
-            .replace(/\\u003E/g, ">")
-            .replace(/\\u0026/g, "&"); // por si hay &amp; escapados
-    }
+  const {
+    id,
+    name,
+    required_age,
+    short_description,
+    legal_notice,
+    controller_support,
+    header_path,
+    release_date,
+    library_path,
+    pathLogo,
+    publishers,
+    categories,
+    genres,
+    movies,
+    screenshots,
+  } = gameData;
 
-    function getSafeDescription(raw) {
-        const decoded = decodeSteamHTML(raw);
+  return (
+    <div>
+      <GameBanner
+        name={name}
+        publishers={publishers}
+        library_path={library_path}
+      />
 
-        return DOMPurify.sanitize(decoded, {
-            ALLOWED_TAGS: ['p', 'ul', 'li', 'strong', 'em', 'br', 'b', 'i'],
-            ALLOWED_ATTR: [] // sin atributos como onclick, style, etc.
-        });
-    }
+      <div className="mt-15 w-full ">
+        <div className="relative m-auto flex w-[75%] justify-between pt-8">
+          <div className="w-[65%] font-bold ">
+            <GalleryGame movies={movies} screenshots={screenshots} />
+            <span className="mt-8 block">{short_description}</span>
 
-    const safeHTML = getSafeDescription(gameData.about_the_game);
+            <DescriptionGame safeHTML={safeHTML} />
+          </div>
 
-    console.log(gameData.genres)
-
-
-    const { name, short_description, categories, header_image, genres, release_date, publishers, developers, required_age, legal_notice, movies, screenshots } = gameData;
-
-    return (
-        <div>
-
-            <GameBanner name={name} publishers={publishers} developers={developers} idGame={idPath} />
-
-            <div className="w-full bg-white mt-15">
-                <div className="flex justify-between w-[75%] m-auto pt-8 relative">
-
-
-
-                    <div className=" text-black font-bold w-[65%]">
-
-                        <GalleryGame movies={movies} screenshots={screenshots} />
-                        <span className="mt-8 block">{short_description}</span>
-
-                        <DescriptionGame safeHTML={safeHTML} />
-
-                    </div>
-
-
-                    <GameInfoCards header_image={header_image} publishers={publishers} developers={developers} legal_notice={legal_notice} categories={categories} name={name} genres={genres} release_date={release_date} required_age={required_age} />
-
-                </div>
-
-                <div className="mt-8 w-[75%] text-black m-auto">
-                    <span>People also like:</span>
-
-                </div>
-            </div>
+          <GameInfoCards
+            header_path={header_path}
+            publishers={publishers}
+            developers={publishers}
+            legal_notice={legal_notice}
+            categories={categories}
+            controller_support={controller_support}
+            name={name}
+            genres={genres}
+            release_date={release_date}
+            required_age={required_age}
+          />
         </div>
-    )
-}
 
-export default gamePage
+        <div className="m-auto mt-8 w-[75%] text-black">
+          <span>People also like:</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default gamePage;

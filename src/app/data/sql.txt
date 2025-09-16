@@ -1,0 +1,49 @@
+estructura de bases de datos para InstantPC
+
+1.- Games
+ - id (int PK)
+ - slug ( string ) 
+ - name ( string )
+ - required_age ( int ) 
+ - about_the_game ( Text ) 
+ - short_description ( string ) 
+ - legal_notice ( Text )
+ - controller_support ( Boolean )
+ - release_date ( DATE )
+
+2.- Publishers
+ - id (int PK)
+ - name ( string )
+ - slug ( string )
+ - about_the_publisher ( string )
+
+3.- Categories
+ - id ( int PK)
+ - name ( string )
+ 
+4.- Genres
+ - id ( int PK )
+ - name ( string )
+
+5.- Movies
+ - id ( int PK )
+ - gameId ( FK Games.id)
+ - name ( string )
+ - path_thumbail ( string )
+ - path_full ( string )
+
+5.- Screenshots
+ - id ( int PK )
+ - gameId ( FK Games.id)
+ - name ( string )
+ - path_thumbail ( string )
+ - path_full ( string )
+
+6.- Images
+ - id ( int PK )
+ - path_header ( string )
+ - path_library ( string )
+ - path_logo ( string )
+
+tablas intermedias
+

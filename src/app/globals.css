@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #e4e6eb;
+  --foreground: #08090a;
 }
 
 :root.dark {
-  --background: #08090A;
-  --foreground: #ededed;
+  --background: #08090a;
+  --foreground: #e4e6eb;
 }
 
 @theme inline {
@@ -15,22 +15,19 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --color-instant-indigo: #5E17EB;
-  --color-instant-pink: #FF6FC4;
-  --color-instant-black: #08090A;
-  --color-instant-white: #E4E6EB;
-  --color-instant-gray: #8499B1;
-
+  --color-instant-indigo: #5e17eb;
+  --color-instant-pink: #ff6fc4;
+  --color-instant-black: #08090a;
+  --color-instant-white: #e4e6eb;
+  --color-instant-gray: #8499b1;
 }
-
-
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition: all 250ms ease-in-out;
 }
-
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -40,17 +37,24 @@ body {
   scrollbar-width: none;
 }
 
-
 /* Section games */
 
 @keyframes scroll-right {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes scroll-left {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .scroll-right {

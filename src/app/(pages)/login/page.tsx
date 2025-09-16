@@ -1,9 +1,9 @@
-import { UserLogin } from './components/UserLogin'
+import { UserLogin } from "./components/UserLogin";
 
 export default function Home() {
-    return (
-        <>
-            <UserLogin/>
-        </>
-    );
+  return (
+    <>
+      <UserLogin />
+    </>
+  );
 }
