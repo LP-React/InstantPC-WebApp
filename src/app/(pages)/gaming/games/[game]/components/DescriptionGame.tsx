@@ -1,15 +1,17 @@
 'use client'
 import { useState } from "react";
 
-export const DescriptionGame = ({ safeHTML }) => {
+interface Props {
+  safeHTML: string
+}
+
+export const DescriptionGame = ({ safeHTML }: Props) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
     <div className="mt-4">
       <div
-        className={`transition-all ${
-          expanded ? "" : "line-clamp-6 overflow-hidden"
-        }`}
+        className={`transition-all ${expanded ? "" : "line-clamp-6 overflow-hidden"}`}
         dangerouslySetInnerHTML={{ __html: safeHTML }}
       />
       <button

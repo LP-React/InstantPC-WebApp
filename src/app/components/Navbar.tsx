@@ -1,5 +1,5 @@
 "use client";
-import { ChevronDown, Globe, Moon, Sun, SunMedium } from "lucide-react";
+import { ChevronDown, Globe, Moon, Sun } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

@@ -3,6 +3,6 @@ export interface GameBannerInfo {
     name: string;
     slug: string;
     short_description: string;
-    header_path: string;
+    library_path:string;
     publishers: null;
 }

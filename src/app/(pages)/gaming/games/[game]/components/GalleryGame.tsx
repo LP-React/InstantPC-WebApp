@@ -19,7 +19,6 @@ export const GalleryGame = ({ movies, screenshots }: Props) => {
         />
       )}
 
-      <div>{movies[0]}</div>
     </div>
   );
 };

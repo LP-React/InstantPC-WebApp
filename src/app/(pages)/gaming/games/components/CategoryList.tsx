@@ -33,15 +33,10 @@ export const CategoryList = ({ gameList, title }: Props) => {
           <ChevronLeft size={20} />
         </button>
 
-        <div
-          ref={scrollRef}
-          className="no-scrollbar flex space-x-1 overflow-x-auto scroll-smooth"
-        >
+        <div ref={scrollRef} className="no-scrollbar flex space-x-1 overflow-x-auto scroll-smooth">
           {gameList.map((game) => (
-            <Link href={`/gaming/games/${game.slug}`} key={game.id}>
-              <div className="inline-block min-w-[200px]">
-                <GameCard header_path={game.header_path} name={game.name} />
-              </div>
+            <Link href={`/gaming/games/${game.slug}`} key={game.name}>
+              <GameCard header_path={game.header_path} name={game.name} />
             </Link>
           ))}
         </div>

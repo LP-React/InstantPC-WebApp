@@ -1,19 +1,27 @@
-import { GameLibraryCard } from "./GameLibraryCard";
+import Image from "next/image";
 
 interface Props {
-    id: any;
     name: any;
     publishers: any;
     short_description: any;
-    header_path: any;
+    library_path: any;
 }
 
-export const GameBannerInfo = ({ id, name, publishers, short_description, header_path }: Props) => {
+export const GameBannerInfo = ({ name, publishers, short_description, library_path }: Props) => {
+
 
     return (
 
         <div className="flex w-[50%]">
-            <GameLibraryCard header_path={header_path} name={name} />
+            <div className="">
+                <Image
+                    width={300}
+                    height={450}
+                    src={library_path}
+                    alt={name}
+                    className="h-full w-full object-cover h-60 min-w-[140px] overflow-hidden rounded-md"
+                />
+            </div>
 
             <div className="text-instant-white ml-4 flex h-full flex-col justify-center">
                 <h2 className="py-2 text-5xl font-bold">{name}</h2>

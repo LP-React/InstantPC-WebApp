@@ -1,9 +1,10 @@
 'use client'
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BgVideo } from "../../components";
 import { GameBannerInfo } from "./GameBannerInfo";
 import Link from "next/link";
-import { GameBannerInfo as GameInfo} from "@/app/interfaces/GameBannerInfo";
+import { GameBannerInfo as GameInfo } from "@/app/interfaces/GameBannerInfo";
+import { getUrlWhatsapp } from "@/app/utils/getUrlWhatsapp";
 
 interface Props {
   games: GameInfo[]
@@ -13,10 +14,8 @@ export const GameBanner = ({ games }: Props) => {
 
   const [gameSelected, setGameSelected] = useState(games[0]);
 
-  const { id, name, slug, publishers, short_description, header_path } = gameSelected;
+  const { id, name, slug, publishers, short_description, library_path } = gameSelected;
 
-  const whatsappNumber = "51923225506";
-  const urlWhatsappMessage = `https://api.whatsapp.com/send/?phone=${whatsappNumber}&text=Hola%2Cdeseo+jugar+${name}&type=phone_number&app_absent=0`;
 
   const onSelectGame = (id = 0) => {
     if (id === gameSelected.id) {
@@ -30,13 +29,10 @@ export const GameBanner = ({ games }: Props) => {
     <div className="bg-instant-black relative flex h-full w-full items-center ">
 
       <div className="z-20 w-[70%] m-auto">
-        <GameBannerInfo {...gameSelected} />
+        <GameBannerInfo name={name} publishers={publishers} short_description={short_description} library_path={library_path} />
 
         <div className="mt-6" role="group">
-          <a
-            className="bg-instant-pink text-instant-white hover:bg-instant-pink mr-5 w-[46%] cursor-pointer rounded-4xl py-2.5 px-22 font-bold transition-all"
-            href={urlWhatsappMessage}
-          >
+          <a className="bg-instant-pink text-instant-white hover:bg-instant-pink mr-5 w-[46%] cursor-pointer rounded-4xl py-2.5 px-22 font-bold transition-all" href={getUrlWhatsapp(name)}>
             Play now
           </a>
           <Link
@@ -52,6 +48,9 @@ export const GameBanner = ({ games }: Props) => {
       {/* {movies?.[0]?.webm?.max && (
         <BgVideo video={movies[0].webm.max} id={idGame} />
       )} */}
+
+      <BgVideo video={"http://video.akamai.steamstatic.com/store_trailers/256936971/movie_max_vp9.webm?t=1680015399"}/>
+
 
 
       <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20">
