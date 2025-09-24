@@ -1,4 +1,9 @@
-export const GalleryGame = ({ movies, screenshots }) => {
+interface Props {
+  movies: string[];
+  screenshots: string[];
+}
+
+export const GalleryGame = ({ movies, screenshots }: Props) => {
 
   return (
     <div className="relative overflow-hidden rounded-xl">
@@ -14,7 +19,7 @@ export const GalleryGame = ({ movies, screenshots }) => {
         />
       )}
 
-      <div>{movies[0].name}</div>
+      <div>{movies[0]}</div>
     </div>
   );
 };
